@@ -5,14 +5,16 @@ open ChordModule
 // global variables
 m <- 10
 numNodes <- 8
-let num = pown 2 m
+num <- pown 2 m
 
 let idx = [|for i in 1..numNodes -> i*2|]
 
 
 let mutable ring : ChordNode = create(idx,numNodes)
-for i=1 to 8 do
-    printfn "%d" ring.ID
+fingertable_establish(ring)
+
+for i=1 to numNodes do
+    // printfn "%d" ring.ID
     printfn "%A" ring.fingertable 
     ring <- ring.successor 
    
