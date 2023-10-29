@@ -13,7 +13,7 @@ module ChordModule
         member val fingertable = [|for _ in 1..m -> 0|] with get, set
         member this.fingerTableConstruction()=
             let mutable next_successor = this.successor
-            for i=0 to m-1 do
+            for i=0 to m-1 do // for all fingertable index:
                 let key = (this.ID+(pown 2 i))%num
                 let mutable isLoop = true
                 while isLoop do
