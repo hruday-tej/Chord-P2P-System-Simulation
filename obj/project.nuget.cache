@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9N4DsI+yCdrHdNjhPEsbHIRiuli1RyCmtyBNetakqNeiLbd8kV/5Y4z7as6oiz5SJPIzr+YnfJsgr2LvPYcK1Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\WIN\\.nuget\\packages\\fsharp.core\\7.0.400\\fsharp.core.7.0.400.nupkg.sha512"
+  ],
+  "logs": []
+}

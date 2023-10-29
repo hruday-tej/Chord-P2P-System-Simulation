@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj": {}
+  },
+  "projects": {
+    "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj",
+        "projectName": "Chord-P2P-System-Simulation",
+        "projectPath": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj",
+        "packagesPath": "C:\\Users\\WIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\WIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.401\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[7.0.400, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
