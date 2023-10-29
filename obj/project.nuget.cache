@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "tn/Eij9EVGc2MYk9fluo8ooIkRgSCmNNy6hFj1Kt8naKjrOgyvnVY5k0zIrVkX3iAG/5xusTvscM0IsMj2E9Fg==",
+  "success": true,
+  "projectFilePath": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj",
+  "expectedPackageFiles": [
+    "/Users/hruday_tej/.nuget/packages/fsharp.core/7.0.401/fsharp.core.7.0.401.nupkg.sha512"
+  ],
+  "logs": []
+}
