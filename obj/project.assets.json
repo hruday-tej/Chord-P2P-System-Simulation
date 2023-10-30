@@ -108,25 +108,25 @@
     ]
   },
   "packageFolders": {
-    "/Users/hruday_tej/.nuget/packages/": {}
+    "C:\\Users\\user\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj",
       "projectName": "Chord-P2P-System-Simulation",
-      "projectPath": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj",
-      "packagesPath": "/Users/hruday_tej/.nuget/packages/",
-      "outputPath": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/obj/",
+      "projectPath": "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\test folder\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/hruday_tej/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/sdk/7.0.403/FSharp/library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.403\\FSharp\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -163,7 +163,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
