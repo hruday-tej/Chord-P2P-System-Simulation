@@ -71,6 +71,10 @@ module ChordModule
                 result <- closestNode.find_successor(id)
             
             result
+        member this.join(newNode: ChordNode) =
+            this.successor <- newNode.find_successor(this.ID + 1)
+            this.successor.predecessor <- this
+            this.fingerTableConstruction()
 
 
     // create ring
@@ -90,14 +94,20 @@ module ChordModule
                 current_node <- newNode
                 // printfn "%d" newNode.ID
         root
-    
-
     let fingertable_establish(ring:ChordNode) = 
         let mutable node = ring
         for j=0 to numNodes-1 do
             node.fingerTableConstruction()
             node <- node.successor
 
+    let addNodeToRing(nodeToAdd: ChordNode, existingNode: ChordNode) =
+        let successor = existingNode.find_successor(nodeToAdd.ID)
+        nodeToAdd.successor <- successor
+        nodeToAdd.predecessor <- existingNode
+        successor.predecessor <- nodeToAdd
+        existingNode.successor <- nodeToAdd
+        nodeToAdd.fingerTableConstruction()
+        existingNode.fingerTableConstruction()
         
 
 
