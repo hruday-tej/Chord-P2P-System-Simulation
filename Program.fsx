@@ -1,32 +1,48 @@
 ﻿open System
 open System.IO
-#load "chordModule.fs"
+#load "Chord.fs"
 open ChordModule
 // global variables
-m <- 20
-numNodes <- 8
+m <- 3
+numNodes <- 4
 num <- pown 2 m
 
-// printfn "%d" num
-let idx = [|for i in 1..numNodes -> i*100|]
-
+let idx = [|for i in 1..numNodes -> i*2|]
 
 let mutable ring : ChordNode = create(idx,numNodes)
+let mutable check = ring
+// for i=0 to numNodes-1 do
+//     printfn "%d" check.predecessor.ID
+//     printfn "%d" check.ID
+//     printfn "%d" check.successor.ID
+//     printfn "----------"
+//     check <- check.successor
 fingertable_establish(ring)
 
 
 // Add nodes to the ring dynamically
-let newNode = new ChordNode(14000) // Create a new ChordNode with ID 14000
-addNodeToRing(newNode, ring) // Add the new node to the ring
 
-for i=1 to numNodes do
-    // printfn "%d" ring.ID
-    // for j = 0 to m-1 do
-    //     printfn "%d" ring.fingertable.[j].ID 
-    // printf "-----------------------------------------------------"
-    let mutable the_key_successor = ring.find_successor 14001
-    printfn "%d, %d"  ring.ID the_key_successor.ID
-    ring <- ring.successor 
+printfn "ADDING A NEW NODE"
+let newNode = new ChordNode(7) // Create a new ChordNode with ID 14000
+addNodeToRing(newNode, ring) // Add the new node to the ring
+for i=0 to numNodes-1 do
+    printfn "%d" check.predecessor.ID
+    printfn "%d" check.ID
+    printfn "%d" check.successor.ID
+    printfn "----------"
+    check <- check.successor
+
+// for j = 0 to m-1 do
+//     printfn "%d" ring.fingertable.[j].ID
+// Console.WriteLine(check.fingertable)
+// for i=1 to numNodes do
+//     // printfn "%d" ring.ID
+//     // for j = 0 to m-1 do
+//     //     printfn "%d" ring.fingertable.[j].ID 
+//     // printf "-----------------------------------------------------"
+//     let mutable the_key_successor = ring.find_successor 14001
+//     printfn "%d, %d"  ring.ID the_key_successor.ID
+//     ring <- ring.successor 
     
 
 

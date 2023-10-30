@@ -1,26 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj": {}
+    "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj": {
+    "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj",
+        "projectUniqueName": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj",
         "projectName": "Chord-P2P-System-Simulation",
-        "projectPath": "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\test folder\\obj\\",
+        "projectPath": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/Chord-P2P-System-Simulation.fsproj",
+        "packagesPath": "/Users/hruday_tej/.nuget/packages/",
+        "outputPath": "/Users/hruday_tej/University of Florida/SEM I/DOSP/DOSP Programming Assignment 2/Chord-P2P-System-Simulation/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/hruday_tej/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files\\dotnet\\sdk\\7.0.403\\FSharp\\library-packs": {},
+          "/usr/local/share/dotnet/sdk/7.0.403/FSharp/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -57,7 +57,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
         }
       }
     }
