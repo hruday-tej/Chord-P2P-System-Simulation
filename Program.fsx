@@ -15,6 +15,10 @@ let mutable ring : ChordNode = create(idx,numNodes)
 fingertable_establish(ring)
 
 
+// Add nodes to the ring dynamically
+let newNode = new ChordNode(14000) // Create a new ChordNode with ID 14000
+addNodeToRing(newNode, ring) // Add the new node to the ring
+
 for i=1 to numNodes do
     // printfn "%d" ring.ID
     // for j = 0 to m-1 do
@@ -23,6 +27,8 @@ for i=1 to numNodes do
     let mutable the_key_successor = ring.find_successor 14001
     printfn "%d, %d"  ring.ID the_key_successor.ID
     ring <- ring.successor 
+    
+
 
 // let mutable the_key_successor = ring.find_successor 101
 // printfn "%d, %d"  ring.ID the_key_successor.ID
