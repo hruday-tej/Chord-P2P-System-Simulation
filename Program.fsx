@@ -7,20 +7,25 @@ m <- 20
 numNodes <- 8
 num <- pown 2 m
 
-printfn "%d" num
-let idx = [|for i in 1..numNodes -> i*2|]
+// printfn "%d" num
+let idx = [|for i in 1..numNodes -> i*100|]
 
 
 let mutable ring : ChordNode = create(idx,numNodes)
 fingertable_establish(ring)
 
+
 for i=1 to numNodes do
     // printfn "%d" ring.ID
-    for j = 0 to m-1 do
-        printfn "%d" ring.fingertable.[j].ID 
-    printf "-----------------------------------------------------"
+    // for j = 0 to m-1 do
+    //     printfn "%d" ring.fingertable.[j].ID 
+    // printf "-----------------------------------------------------"
+    let mutable the_key_successor = ring.find_successor 14001
+    printfn "%d, %d"  ring.ID the_key_successor.ID
     ring <- ring.successor 
-   
+
+// let mutable the_key_successor = ring.find_successor 101
+// printfn "%d, %d"  ring.ID the_key_successor.ID
 
 // for i=1 to 8 do
 //     printfn "%d" ring.ID

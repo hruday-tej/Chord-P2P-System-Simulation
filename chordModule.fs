@@ -19,12 +19,12 @@ module ChordModule
                 while isLoop do
                     let mutable start_ID = next_successor.predecessor.ID
                     let mutable end_ID = next_successor.ID
-                    if start_ID < end_ID then
+                    if start_ID < end_ID then // normal situation
                         if key > start_ID && key <= end_ID
                         then isLoop <- false
                         else 
                             next_successor <- next_successor.successor
-                    else
+                    else // ring gap
                         if key > start_ID || key <= end_ID
                         then 
                             isLoop <- false
@@ -33,7 +33,44 @@ module ChordModule
 
                 this.fingertable.[i] <- next_successor
 
-        // member this.closest_preceding_node(id:int) = 
+        member this.closest_preceding_node(id:int) : ChordNode =
+            let mutable result = this.fingertable[m-1]
+            for i = m-1 downto 1 do
+                let mutable end_ID = this.fingertable.[i].ID
+                let mutable start_ID = this.fingertable.[i-1].ID
+                if start_ID < end_ID 
+                then // normal situation
+                    if id>start_ID && id<= end_ID 
+                    then
+                        result <- this.fingertable.[i-1]
+                else // ring gap
+                    if id > start_ID || id <= end_ID 
+                    then
+                        result <- this.fingertable.[i-1]
+            result
+
+        member this.find_successor(id:int) : ChordNode = 
+            // if id = this.ID then selfRef
+            let mutable result = selfRef
+            let mutable start_ID = this.ID
+            let mutable end_ID = this.successor.ID
+            let mutable if_need_getClosest = true
+            if start_ID < end_ID // normal situation
+            then
+                if id > start_ID && id <= end_ID then
+                    result <- this.successor
+                    if_need_getClosest <- false
+            else // ring gap
+                if id <= end_ID || id > start_ID then
+                    result <- this.successor
+                    if_need_getClosest <- false
+            
+            if if_need_getClosest 
+            then
+                let mutable closestNode = this.closest_preceding_node(id)
+                result <- closestNode.find_successor(id)
+            
+            result
 
 
     // create ring
