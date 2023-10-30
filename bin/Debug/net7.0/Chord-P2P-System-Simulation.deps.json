@@ -8,17 +8,17 @@
     ".NETCoreApp,Version=v7.0": {
       "Chord-P2P-System-Simulation/1.0.0": {
         "dependencies": {
-          "FSharp.Core": "7.0.401"
+          "FSharp.Core": "7.0.400"
         },
         "runtime": {
           "Chord-P2P-System-Simulation.dll": {}
         }
       },
-      "FSharp.Core/7.0.401": {
+      "FSharp.Core/7.0.400": {
         "runtime": {
           "lib/netstandard2.1/FSharp.Core.dll": {
             "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.4.123.42509"
+            "fileVersion": "7.4.23.37403"
           }
         },
         "resources": {
@@ -71,12 +71,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "FSharp.Core/7.0.401": {
+    "FSharp.Core/7.0.400": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ZL16YHLJnkosMooVXjvJH0vGf7O4RSNtCpA/qw6OAHYxPCYSZRc5pKFTpDeDLdSWpOJDaZlveKcn42F0UDo77A==",
-      "path": "fsharp.core/7.0.401",
-      "hashPath": "fsharp.core.7.0.401.nupkg.sha512"
+      "sha512": "sha512-SZR1jcjcrdhjRObN/U16nI+RyvKBgg0zq8Pt2KAorDkvW0cXSjX4qKDNX+LpZaKZRA5QR9StHZ2mhT5VI/QSxw==",
+      "path": "fsharp.core/7.0.400",
+      "hashPath": "fsharp.core.7.0.400.nupkg.sha512"
     }
   }
 }

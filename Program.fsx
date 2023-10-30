@@ -1,25 +1,30 @@
 ﻿open System
 open System.IO
-#load "chordModule.fs"
+#load "ChordModule.fs"
 open ChordModule
+
 // global variables
-m <- 20
-numNodes <- 8
-num <- pown 2 m
+let mutable m = 20
+let mutable numNodes = 8
+let mutable num = pown 2 m
 
 printfn "%d" num
-let idx = [|for i in 1..numNodes -> i*2|]
+let idx = [|for i in 1..numNodes -> i * 2|]
 
-
-let mutable ring : ChordNode = create(idx,numNodes)
+let mutable ring : ChordNode = create(idx, numNodes)
 fingertable_establish(ring)
 
-for i=1 to numNodes do
-    // printfn "%d" ring.ID
-    for j = 0 to m-1 do
-        printfn "%d" ring.fingertable.[j].ID 
+for i = 1 to numNodes do
+    for j = 0 to m - 1 do
+        printfn "%d" ring.fingertable.[j].ID
     printf "-----------------------------------------------------"
-    ring <- ring.successor 
+    ring <- ring.successor
+
+// Use the join function to add a new node to the Chord ring
+let newNodeID = 17 // Replace with the desired ID of the new node
+let newNode = new ChordNode(newNodeID)
+ring.join(newNode) // Add the new node to the ring and update finger tables
+
    
 
 // for i=1 to 8 do

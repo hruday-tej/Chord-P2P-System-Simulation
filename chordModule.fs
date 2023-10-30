@@ -32,14 +32,32 @@ module ChordModule
                             next_successor <- next_successor.successor
 
                 this.fingertable.[i] <- next_successor
-
         // member this.closest_preceding_node(id:int) = 
+        member this.join(newNode: ChordNode) =
+            let mutable current = this
+            while current.successor.ID < newNode.ID && newNode.ID <= current.ID do
+                current <- current.successor
+            newNode.successor <- current.successor
+            newNode.predecessor <- current
+            current.successor.predecessor <- newNode
+            current.successor <- newNode
 
+            let mutable nodeToUpdate = this
+            for i = 0 to m - 1 do
+                if this.ID = nodeToUpdate.ID then
+                    nodeToUpdate.fingertable.[i] <- newNode
+                nodeToUpdate <- nodeToUpdate.successor
+
+            nodeToUpdate <- newNode.successor
+            for i = 0 to m - 1 do
+                if this.ID = nodeToUpdate.ID then
+                    nodeToUpdate.fingertable.[i] <- newNode
+                nodeToUpdate <- nodeToUpdate.successor
 
     // create ring
     let create (nodes:int array, numNodes:int):ChordNode =
         // printfn "%A" nodes
-        let root = new ChordNode(nodes[0])
+        let root = new ChordNode(nodes.[0])
         let mutable current_node = root
         for i=0 to numNodes-1  do
             if i = numNodes-1 
@@ -47,13 +65,13 @@ module ChordModule
                 current_node.successor <- root
                 root.predecessor <- current_node
             else    
-                let newNode = new ChordNode(nodes[i+1])
+                let newNode = new ChordNode(nodes.[i+1])
                 current_node.successor <- newNode
                 newNode.predecessor <- current_node
                 current_node <- newNode
                 // printfn "%d" newNode.ID
         root
-    
+
 
     let fingertable_establish(ring:ChordNode) = 
         let mutable node = ring
@@ -61,7 +79,7 @@ module ChordModule
             node.fingerTableConstruction()
             node <- node.successor
 
-        
 
 
-    
+
+

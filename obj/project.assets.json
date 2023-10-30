@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net7.0": {
-      "FSharp.Core/7.0.401": {
+      "FSharp.Core/7.0.400": {
         "type": "package",
         "compile": {
           "lib/netstandard2.1/FSharp.Core.dll": {
@@ -59,15 +59,15 @@
     }
   },
   "libraries": {
-    "FSharp.Core/7.0.401": {
-      "sha512": "ZL16YHLJnkosMooVXjvJH0vGf7O4RSNtCpA/qw6OAHYxPCYSZRc5pKFTpDeDLdSWpOJDaZlveKcn42F0UDo77A==",
+    "FSharp.Core/7.0.400": {
+      "sha512": "SZR1jcjcrdhjRObN/U16nI+RyvKBgg0zq8Pt2KAorDkvW0cXSjX4qKDNX+LpZaKZRA5QR9StHZ2mhT5VI/QSxw==",
       "type": "package",
-      "path": "fsharp.core/7.0.401",
+      "path": "fsharp.core/7.0.400",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "fsharp.core.7.0.401.nupkg.sha512",
+        "fsharp.core.7.0.400.nupkg.sha512",
         "fsharp.core.nuspec",
         "lib/netstandard2.0/FSharp.Core.dll",
         "lib/netstandard2.0/FSharp.Core.xml",
@@ -104,29 +104,31 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "FSharp.Core >= 7.0.401"
+      "FSharp.Core >= 7.0.400"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\WIN\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj",
+      "projectUniqueName": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj",
       "projectName": "Chord-P2P-System-Simulation",
-      "projectPath": "C:\\Users\\user\\Desktop\\test folder\\Chord-P2P-System-Simulation.fsproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\test folder\\obj\\",
+      "projectPath": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\Chord-P2P-System-Simulation.fsproj",
+      "packagesPath": "C:\\Users\\WIN\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\WIN\\Desktop\\GITHUB\\Chord-P2P-System-Simulation\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\WIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files\\dotnet\\sdk\\7.0.403\\FSharp\\library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.401\\FSharp\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -143,7 +145,7 @@
           "FSharp.Core": {
             "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
             "target": "Package",
-            "version": "[7.0.401, )",
+            "version": "[7.0.400, )",
             "generatePathProperty": true
           }
         },
@@ -163,7 +165,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
