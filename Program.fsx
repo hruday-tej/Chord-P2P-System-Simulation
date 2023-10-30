@@ -16,7 +16,9 @@ fingertable_establish(ring)
 
 for i=1 to numNodes do
     // printfn "%d" ring.ID
-    printfn "%A" ring.fingertable 
+    for j = 0 to m-1 do
+        printfn "%d" ring.fingertable.[j].ID 
+    printf "-----------------------------------------------------"
     ring <- ring.successor 
    
 

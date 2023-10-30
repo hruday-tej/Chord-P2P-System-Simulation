@@ -10,7 +10,7 @@ module ChordModule
         member val successor = selfRef with get, set
         member val predecessor = selfRef with get, set
         member val ID:int = id with get, set
-        member val fingertable = [|for _ in 1..m -> 0|] with get, set
+        member val fingertable = [|for _ in 1..m -> selfRef|] with get, set
         member this.fingerTableConstruction()=
             let mutable next_successor = this.successor
             for i=0 to m-1 do // for all fingertable index:
@@ -31,7 +31,9 @@ module ChordModule
                         else
                             next_successor <- next_successor.successor
 
-                this.fingertable.[i] <- next_successor.ID
+                this.fingertable.[i] <- next_successor
+
+        // member this.closest_preceding_node(id:int) = 
 
 
     // create ring
