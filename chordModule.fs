@@ -33,7 +33,7 @@ module ChordModule
 
                 this.fingertable.[i] <- next_successor
 
-        member this.closest_preceding_node(id:int) : ChordNode =
+        member this.closest_preceding_node(id:int) : ChordNode = // this function would search the finger table to find the closest preceding node where id(key) locates 
             let mutable result = this.fingertable[m-1]
             for i = m-1 downto 1 do
                 let mutable end_ID = this.fingertable.[i].ID
@@ -49,7 +49,7 @@ module ChordModule
                         result <- this.fingertable.[i-1]
             result
 
-        member this.find_successor(id:int) : ChordNode = 
+        member this.find_successor(id:int) : ChordNode = // this function will return the node where the id(key) locates
             // if id = this.ID then selfRef
             let mutable result = selfRef
             let mutable start_ID = this.ID
