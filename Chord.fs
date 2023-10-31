@@ -1,4 +1,5 @@
 module ChordModule
+open System.Collections.Generic
     // global variables
     let mutable m = 0
     let mutable numNodes = 0
@@ -12,6 +13,7 @@ module ChordModule
         member val predecessor = selfRef with get, set
         member val ID:int = id with get, set
         member val fingertable = [|for _ in 1..m -> selfRef|] with get, set
+        member val fingerDictionary = new Dictionary<int, ChordNode>()
         member this.fingerTableConstruction()=
             // printfn "%d -> %d" this.ID this.successor.ID
             let mutable next_successor = this.successor
@@ -34,6 +36,11 @@ module ChordModule
                             next_successor <- next_successor.successor
 
                 this.fingertable.[i] <- next_successor
+                // printfn "%d -=-=- %d " (pown 2 i+this.ID) this.ID 
+                if this.fingerDictionary.ContainsKey(pown 2 i + this.ID) then
+                    this.fingerDictionary[pown 2 i + this.ID] <- next_successor
+                else
+                    this.fingerDictionary.Add((pown 2 i+this.ID),next_successor);
 
         member this.closest_preceding_node(id:int) : ChordNode =
             let mutable result = this.fingertable[m-1]

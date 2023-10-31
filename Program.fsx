@@ -1,39 +1,42 @@
 ﻿open System
 open System.IO
+open System.Collections.Generic
+
 #load "Chord.fs"
 open ChordModule
-// global variables
+
+
 m <- 3
 numNodes <- 4
-num <- pown 2 m
+num <- 10
+
+let numRequests = 10
+
+// printfn "%d ____ %d" numNodes numRequests
 
 let idx = [|for i in 1..numNodes -> i*2|]
 
 let mutable ring : ChordNode = create(idx,numNodes)
 let mutable check = ring
+fingertable_establish(ring)
+// Add nodes to the ring dynamically
+
+printfn "ADDING A NEW NODE"
+let newNode = new ChordNode(7) // Create a new ChordNode with ID 14000
+addNodeToRing(newNode, ring) // Add the new node to the ring
+
 // for i=0 to numNodes-1 do
 //     printfn "%d" check.predecessor.ID
 //     printfn "%d" check.ID
 //     printfn "%d" check.successor.ID
 //     printfn "----------"
 //     check <- check.successor
-fingertable_establish(ring)
-
-
-// Add nodes to the ring dynamically
-
-printfn "ADDING A NEW NODE"
-let newNode = new ChordNode(7) // Create a new ChordNode with ID 14000
-addNodeToRing(newNode, ring) // Add the new node to the ring
-for i=0 to numNodes-1 do
-    printfn "%d" check.predecessor.ID
-    printfn "%d" check.ID
-    printfn "%d" check.successor.ID
-    printfn "----------"
-    check <- check.successor
+// for kvp in ring.successor.successor.successor.fingerDictionary do
+    // printfn "... %d" ring.successor.successor.successor.ID
+    // printfn "%d %d" kvp.Key kvp.Value.ID
 
 // for j = 0 to m-1 do
-//     printfn "%d" ring.fingertable.[j].ID
+//     printfn "%d %d"(pown 2 j+ring.successor.ID) ring.successor.fingertable.[j].ID
 // Console.WriteLine(check.fingertable)
 // for i=1 to numNodes do
 //     // printfn "%d" ring.ID
@@ -128,3 +131,4 @@ for i=0 to numNodes-1 do
 // Console.WriteLine(chordRing |> Map.count)
 // printfn "%d" chordRing[nodes[0]].mySuccessor
 // printfn "%d" chordRing[nodes[0]].myPredecessor
+0
