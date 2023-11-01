@@ -6,31 +6,39 @@ open System.Collections.Generic
 open ChordModule
 
 
-m <- 3
-numNodes <- 4
-num <- 10
+m <- 20
+numNodes <- 10000
+num <- pown 2 m
 
 let numRequests = 10
 
 // printfn "%d ____ %d" numNodes numRequests
 
-let idx = [|for i in 1..numNodes -> i*2|]
-
+let idx = [|for i in 1..numNodes -> Random().Next(0, num)|]
+let lookupArray = [|for i in 1..numRequests -> Random().Next(0, num)|]
 let mutable ring : ChordNode = create(idx,numNodes)
 let mutable check = ring
 fingertable_establish(ring)
 // Add nodes to the ring dynamically
 
-printfn "ADDING A NEW NODE"
-let newNode = new ChordNode(7) // Create a new ChordNode with ID 14000
-addNodeToRing(newNode, ring) // Add the new node to the ring
+// printfn "ADDING A NEW NODE"
+// let newNode = new ChordNode(7) // Create a new ChordNode with ID 14000
+// addNodeToRing(newNode, ring) // Add the new node to the ring
+for i=0 to numNodes-1 do
+    for lookupID in lookupArray do
+        // printfn "%d" lookupID
+        ring.find_successor(lookupID) |> ignore
 
+    ring <- ring.successor
 // for i=0 to numNodes-1 do
 //     printfn "%d" check.predecessor.ID
 //     printfn "%d" check.ID
 //     printfn "%d" check.successor.ID
 //     printfn "----------"
 //     check <- check.successor
+printfn "%d" num_of_hops
+printfn "%d" (numNodes*numRequests)
+printfn "%d" (num_of_hops/(numNodes*numRequests))
 // for kvp in ring.successor.successor.successor.fingerDictionary do
     // printfn "... %d" ring.successor.successor.successor.ID
     // printfn "%d %d" kvp.Key kvp.Value.ID

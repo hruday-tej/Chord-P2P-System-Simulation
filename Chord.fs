@@ -4,7 +4,7 @@ open System.Collections.Generic
     let mutable m = 0
     let mutable numNodes = 0
     let mutable num = 0
-
+    let mutable num_of_hops = 0
 
     // ChordNode type
     type ChordNode (id: int) =
@@ -43,6 +43,7 @@ open System.Collections.Generic
                     this.fingerDictionary.Add((pown 2 i+this.ID),next_successor);
 
         member this.closest_preceding_node(id:int) : ChordNode =
+            num_of_hops <- num_of_hops + 1
             let mutable result = this.fingertable[m-1]
             for i = m-1 downto 1 do
                 let mutable end_ID = this.fingertable.[i].ID
@@ -113,15 +114,8 @@ open System.Collections.Generic
             node.fingerTableConstruction()
             node <- node.successor
 
-    let addNodeToRing(nodeToAdd: ChordNode, existingNode: ChordNode) =
-        let successor = existingNode.find_successor(nodeToAdd.ID)
-        let prev = successor.predecessor
-        prev.successor <- nodeToAdd
-        nodeToAdd.predecessor <- prev
-        nodeToAdd.successor <- successor
-        successor.predecessor <- nodeToAdd
-        nodeToAdd.fingerTableConstruction()
-        existingNode.fingerTableConstruction()
+    // let addNodeT
+    
         
 
 

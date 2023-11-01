@@ -45,6 +45,7 @@ let akkaRouting = "akka://akkaSystem/user/"
 
 module randomGenerationUtilityModule = 
 
+<<<<<<< HEAD
     let getDecimalValues (arr: byte[]) : bigint =
         arr
         |> Array.rev
@@ -52,6 +53,8 @@ module randomGenerationUtilityModule =
             result * 256I + bigint(byt)
         ) 0I
         
+=======
+>>>>>>> 9ad8991da4b8ea8a1912ae8827769f2eeb59ef63
     let nRandomForId (num : int) : bigint[] =
         Array.init num (fun _ ->
             let byteArray = Array.zeroCreate 20
