@@ -10,6 +10,7 @@ open System.Security.Cryptography
 open Akka.Actor
 open Akka.FSharp
 open System.Threading
+open System.Numerics
 
 let noOfPeers = int(fsi.CommandLineArgs.[1])
 let noOfRequests = int(fsi.CommandLineArgs.[2])
@@ -43,19 +44,19 @@ let akkaRouting = "akka://akkaSystem/user/"
 
 
 module randomGenerationUtilityModule = 
+
     let getDecimalValues (arr: byte[]) : bigint =
         arr
         |> Array.rev
         |> Array.fold (fun result byt ->
             result * 256I + bigint(byt)
         ) 0I
-
-
+        
     let nRandomForId (num : int) : bigint[] =
         Array.init num (fun _ ->
             let byteArray = Array.zeroCreate 20
             Random().NextBytes(byteArray)
-            let hashed = SHA256Managed.Create().ComputeHash(byteArray)
+            let hashed = SHA256.Create().ComputeHash(byteArray)
             let result = 
                 hashed
                 |> Array.rev
