@@ -1,5 +1,4 @@
 module ChordModule
-open System.Collections.Generic
     // global variables
     let mutable m = 0
     let mutable numNodes = 0
@@ -13,9 +12,7 @@ open System.Collections.Generic
         member val predecessor = selfRef with get, set
         member val ID:int = id with get, set
         member val fingertable = [|for _ in 1..m -> selfRef|] with get, set
-        member val fingerDictionary = new Dictionary<int, ChordNode>()
         member this.fingerTableConstruction()=
-            // printfn "%d -> %d" this.ID this.successor.ID
             let mutable next_successor = this.successor
             for i=0 to m-1 do // for all fingertable index:
                 let key = (this.ID+(pown 2 i))%num
@@ -36,14 +33,10 @@ open System.Collections.Generic
                             next_successor <- next_successor.successor
 
                 this.fingertable.[i] <- next_successor
-                // printfn "%d -=-=- %d " (pown 2 i+this.ID) this.ID 
-                if this.fingerDictionary.ContainsKey(pown 2 i + this.ID) then
-                    this.fingerDictionary[pown 2 i + this.ID] <- next_successor
-                else
-                    this.fingerDictionary.Add((pown 2 i+this.ID),next_successor);
 
-        member this.closest_preceding_node(id:int) : ChordNode =
+        member this.closest_preceding_node(id:int) : ChordNode = // this function would search the finger table to find the closest preceding node where id(key) locates 
             num_of_hops <- num_of_hops + 1
+            
             let mutable result = this.fingertable[m-1]
             for i = m-1 downto 1 do
                 let mutable end_ID = this.fingertable.[i].ID
@@ -57,16 +50,15 @@ open System.Collections.Generic
                     if id > start_ID || id <= end_ID 
                     then
                         result <- this.fingertable.[i-1]
+            // printfn "(%d, %d)" num_of_hops result.ID
             result
 
-        member this.find_successor(id:int) : ChordNode = 
+        member this.find_successor(id:int) : ChordNode = // this function will return the node where the id(key) locates
             // if id = this.ID then selfRef
             let mutable result = selfRef
             let mutable start_ID = this.ID
             let mutable end_ID = this.successor.ID
             let mutable if_need_getClosest = true
-            // printfn "%d ...>>. %d .<<.. %d" start_ID id end_ID
-
             if start_ID < end_ID // normal situation
             then
                 if id > start_ID && id <= end_ID then
@@ -76,27 +68,21 @@ open System.Collections.Generic
                 if id <= end_ID || id > start_ID then
                     result <- this.successor
                     if_need_getClosest <- false
-
+            
             if if_need_getClosest 
             then
                 let mutable closestNode = this.closest_preceding_node(id)
                 result <- closestNode.find_successor(id)
             
             result
-        member this.join(newNode: ChordNode) =
-            this.successor <- newNode.find_successor(this.ID + 1)
-            this.successor.predecessor <- this
-            this.fingerTableConstruction()
 
 
     // create ring
     let create (nodes:int array, numNodes:int):ChordNode =
         // printfn "%A" nodes
-
-
         let root = new ChordNode(nodes[0])
         let mutable current_node = root
-        for i=0 to numNodes-1  do
+        for i=0 to numNodes-1 do
             if i = numNodes-1 
             then 
                 current_node.successor <- root
@@ -108,14 +94,14 @@ open System.Collections.Generic
                 current_node <- newNode
                 // printfn "%d" newNode.ID
         root
+    
+
     let fingertable_establish(ring:ChordNode) = 
         let mutable node = ring
         for j=0 to numNodes-1 do
             node.fingerTableConstruction()
             node <- node.successor
 
-    // let addNodeT
-    
         
 
 

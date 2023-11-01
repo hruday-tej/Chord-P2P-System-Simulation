@@ -1,7 +1,7 @@
 #r "nuget: Akka.FSharp" 
 #r "nuget: Akka.TestKit"
 #r "nuget: Akka.Remote" 
-
+#load "chord.fs"
 open System
 open System.Security.Cryptography
 open System.Text
@@ -10,11 +10,12 @@ open System.Collections.Generic
 open Akka.Configuration
 open Akka.FSharp
 open Akka.TestKit
-
-let m =20
+open ChordModule
+m <- 20
+num <- pown 2 m
 let fingerTableSize = m
 let netwRingSize = 2.**m |> int64
-let numNodes = fsi.CommandLineArgs.[1] |> int
+numNodes <- fsi.CommandLineArgs.[1] |> int
 let numRequests = fsi.CommandLineArgs.[2] |> int
 let akkaSystem: ActorSystem = ActorSystem.Create("ChordP2P", Configuration.defaultConfig())
 let getWorkerById id =
@@ -23,6 +24,9 @@ let getWorkerById id =
 let randomLongGeneration min max =
     let longRand = int64 (Random().Next(Int32.MaxValue))
     (longRand % (max - min) + min)
+
+let mutable idx = [|for i in 1..numNodes -> Random().Next(0, num)|]
+idx <- Array.sort idx
 
 type Config = 
     | Input of (int*int)
@@ -35,6 +39,10 @@ type Config =
     | Notify of (int64)
     | FindSuccessor of (int64)
     | CheckPredecessor of (int64)
+
+let mutable actor_try : ChordNode = create(idx,numNodes)
+fingertable_establish(actor_try)
+let mutable goodactor : ChordNode = create(idx,numNodes)
 
 let createWorkerNode id = 
     spawn akkaSystem ("worker" + string id)
@@ -159,6 +167,11 @@ let createWorkerNode id =
             repeateRecursion()
         )
 
+for i=0 to numNodes-1 do
+    let mutable requests = [|for i in 1..numRequests -> Random().Next(0, num)|]
+    for request in requests do
+        actor_try.find_successor request |> ignore
+
 let localActor (mailboxService:Actor<_>) = 
     let mutable completedRequests = 0
     let mutable localActorNum = 0
@@ -221,7 +234,7 @@ let localActor (mailboxService:Actor<_>) =
 
         | GenerateReport(numOfJumps) ->
             completedRequests <- completedRequests + 1
-            totalJumpNos <- totalJumpNos + numOfJumps
+            totalJumpNos <- num_of_hops
             if completedRequests = totalRequests then
                 printfn($"Total Requests {completedRequests}\nAverage Hops: {float totalJumpNos / float completedRequests} \nTotal jumps: {totalJumpNos} \t")
                 mailboxService.Context.System.Terminate() |> ignore
