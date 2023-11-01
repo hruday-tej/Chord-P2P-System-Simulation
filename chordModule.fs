@@ -3,6 +3,7 @@ module ChordModule
     let mutable m = 0
     let mutable numNodes = 0
     let mutable num = 0
+    let mutable num_of_hops = 0
 
     // ChordNode type
     type ChordNode (id: int) =
@@ -34,6 +35,8 @@ module ChordModule
                 this.fingertable.[i] <- next_successor
 
         member this.closest_preceding_node(id:int) : ChordNode = // this function would search the finger table to find the closest preceding node where id(key) locates 
+            num_of_hops <- num_of_hops + 1
+            
             let mutable result = this.fingertable[m-1]
             for i = m-1 downto 1 do
                 let mutable end_ID = this.fingertable.[i].ID
@@ -47,6 +50,7 @@ module ChordModule
                     if id > start_ID || id <= end_ID 
                     then
                         result <- this.fingertable.[i-1]
+            printfn "(%d, %d)" num_of_hops result.ID
             result
 
         member this.find_successor(id:int) : ChordNode = // this function will return the node where the id(key) locates
@@ -78,7 +82,7 @@ module ChordModule
         // printfn "%A" nodes
         let root = new ChordNode(nodes[0])
         let mutable current_node = root
-        for i=0 to numNodes-1  do
+        for i=0 to numNodes-1 do
             if i = numNodes-1 
             then 
                 current_node.successor <- root
@@ -88,7 +92,7 @@ module ChordModule
                 current_node.successor <- newNode
                 newNode.predecessor <- current_node
                 current_node <- newNode
-                // printfn "%d" newNode.ID
+                printfn "%d" newNode.ID
         root
     
 
