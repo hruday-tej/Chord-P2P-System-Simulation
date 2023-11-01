@@ -25,8 +25,7 @@ let randomLongGeneration min max =
     let longRand = int64 (Random().Next(Int32.MaxValue))
     (longRand % (max - min) + min)
 
-let mutable idx = [|for i in 1..numNodes -> Random().Next(0, num)|]
-idx <- Array.sort idx
+
 
 type Config = 
     | Input of (int*int)
@@ -39,10 +38,12 @@ type Config =
     | Notify of (int64)
     | FindSuccessor of (int64)
     | CheckPredecessor of (int64)
-
+let mutable idx = [|for i in 1..numNodes -> Random().Next(0, num)|]
+idx <- Array.sort idx
+let mutable requests = [|for i in 1..numRequests -> Random().Next(0, num)|]
 let mutable actor_try : ChordNode = create(idx,numNodes)
 fingertable_establish(actor_try)
-let mutable goodactor : ChordNode = create(idx,numNodes)
+
 
 let createWorkerNode id = 
     spawn akkaSystem ("worker" + string id)
@@ -167,11 +168,12 @@ let createWorkerNode id =
             repeateRecursion()
         )
 
+
 for i=0 to numNodes-1 do
-    let mutable requests = [|for i in 1..numRequests -> Random().Next(0, num)|]
     for request in requests do
         actor_try.find_successor request |> ignore
 
+    actor_try <- actor_try.successor 
 let localActor (mailboxService:Actor<_>) = 
     let mutable completedRequests = 0
     let mutable localActorNum = 0

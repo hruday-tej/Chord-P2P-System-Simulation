@@ -5,6 +5,14 @@ module ChordModule
     let mutable num = 0
     let mutable num_of_hops = 0
 
+    let findRange (startID:int, endID:int, fingerId:int) : bool=
+        let mutable result = false
+        if startID < endID then //normal
+            if fingerId > startID && fingerId < endID then result <- true
+        else
+            if fingerId > startID || fingerId < endID then result <- true
+        result
+
     // ChordNode type
     type ChordNode (id: int) =
         let mutable selfRef = Unchecked.defaultof<ChordNode>
@@ -35,23 +43,19 @@ module ChordModule
                 this.fingertable.[i] <- next_successor
 
         member this.closest_preceding_node(id:int) : ChordNode = // this function would search the finger table to find the closest preceding node where id(key) locates 
-            num_of_hops <- num_of_hops + 1
+            num_of_hops <- (num_of_hops+1)
+            let mutable i = m-1
+            let mutable isRun = true
+            let mutable result = selfRef
+            while i >=0 && isRun do 
+                if findRange(this.ID, id, this.fingertable.[i].ID) 
+                then
+                    result <- this.fingertable.[i]
+                    isRun <- false
+                i <- i-1
+            printfn "hop result: %d" result.ID
+            result    
             
-            let mutable result = this.fingertable[m-1]
-            for i = m-1 downto 1 do
-                let mutable end_ID = this.fingertable.[i].ID
-                let mutable start_ID = this.fingertable.[i-1].ID
-                if start_ID < end_ID 
-                then // normal situation
-                    if id>start_ID && id<= end_ID 
-                    then
-                        result <- this.fingertable.[i-1]
-                else // ring gap
-                    if id > start_ID || id <= end_ID 
-                    then
-                        result <- this.fingertable.[i-1]
-            // printfn "(%d, %d)" num_of_hops result.ID
-            result
 
         member this.find_successor(id:int) : ChordNode = // this function will return the node where the id(key) locates
             // if id = this.ID then selfRef
