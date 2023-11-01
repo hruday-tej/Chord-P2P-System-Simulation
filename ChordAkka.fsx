@@ -12,13 +12,13 @@ open Akka.FSharp
 open Akka.TestKit
 
 let m =20
-let funcTableSize = m
+let fingerTableSize = m
 let netwRingSize = 2.**m |> int64
 let numNodes = fsi.CommandLineArgs.[1] |> int
 let numRequests = fsi.CommandLineArgs.[2] |> int
-let system: ActorSystem = ActorSystem.Create("ChordP2P", Configuration.defaultConfig())
+let akkaSystem: ActorSystem = ActorSystem.Create("ChordP2P", Configuration.defaultConfig())
 let getWorkerById id =
-    select (@"akka://ChordP2P/user/worker" + string id) system
+    select (@"akka://ChordP2P/user/worker" + string id) akkaSystem
 
 let randomLongGeneration min max =
     let longRand = int64 (Random().Next(Int32.MaxValue))
@@ -29,7 +29,7 @@ type Config =
     | NetworkDoneNotification of (int)
     | Request of (int64*int64*int)
     | Response of (int64)
-    | Report of (int)
+    | GenerateReport of (int)
     | Create of (int64*int64*list<int * int64>)
     | Join of (int64)
     | Notify of (int64)
@@ -37,9 +37,9 @@ type Config =
     | CheckPredecessor of (int64)
 
 let createWorkerNode id = 
-    spawn system ("worker" + string id)
+    spawn akkaSystem ("worker" + string id)
         (fun mailboxMessenger ->
-            let bossActor: ActorSelection = select @"akka://ChordP2P/user/boss" system
+            let bossActor: ActorSelection = select @"akka://ChordP2P/user/boss" akkaSystem
 
             let mutable predecessor = -1L
             let mutable successor = id;
@@ -73,7 +73,7 @@ let createWorkerNode id =
 
             let nearestPrecedingNode currId =
                 let mutable res = id //0
-                for i = funcTableSize - 1 downto 0 do
+                for i = fingerTableSize - 1 downto 0 do
                     let (_, successor) = fingerTable.[i]
                     if (checkRangeValidity successor id currId) then res <- successor
                 res
@@ -92,9 +92,9 @@ let createWorkerNode id =
                 // update each finger
                 let fixFinger _ =
                     next <- next + 1
-                    if next > funcTableSize then next <- 1
+                    if next > fingerTableSize then next <- 1
                     findSuccessor (id + int64 (2. ** (float (next - 1))))
-                for _ in 1..funcTableSize do 
+                for _ in 1..fingerTableSize do 
                     finger <- finger@[(next, fixFinger())]
                 finger
 
@@ -115,11 +115,11 @@ let createWorkerNode id =
                         (targetId |> nearestPrecedingNode |> getWorkerById)  <! Request(targetId, ogId, jumpNos + 1)
 
 
-            let rec loop() =
+            let rec repeateRecursion() =
                 actor {
-                    let! message = mailboxMessenger.Receive()
-                    let outBox = mailboxMessenger.Sender()
-                    match message with
+                    let! receivedMessage = mailboxMessenger.Receive()
+                    let senderClient = mailboxMessenger.Sender()
+                    match receivedMessage with
                     | Create(succ, pred, fTable) ->
                         successor <- succ
                         predecessor <- pred
@@ -132,13 +132,13 @@ let createWorkerNode id =
                         fingerTable <- fingerTableUpdater()
                         asyncFingerTableUpdateRunner()
                     | FindSuccessor(currId) ->
-                        outBox <! findSuccessor currId
+                        senderClient <! findSuccessor currId
                     | Notify(predId) -> 
                         if predecessor = -1L || checkTargetValidity predId predecessor id then 
                             predecessor <- predId
                     | CheckPredecessor(currId) -> 
                         currId |> ignore
-                        outBox <! predecessor
+                        senderClient <! predecessor
                     | NetworkDoneNotification(reqNum) -> 
                         // Start sending request
                         for _ in 1 .. reqNum do
@@ -150,17 +150,17 @@ let createWorkerNode id =
                             // report id to the node that made request
                             originId |> getWorkerById <! Response(id)
                             // report jumpNum to boss 
-                            bossActor <! Report(jumpNum)
+                            bossActor <! GenerateReport(jumpNum)
                         else 
                             successorCountUtility targetId originId jumpNum
                     | _ -> ()
-                    return! loop()
+                    return! repeateRecursion()
                 }
-            loop()
+            repeateRecursion()
         )
 
-let localActor (mailbox:Actor<_>) = 
-    let mutable completedRequest = 0
+let localActor (mailboxService:Actor<_>) = 
+    let mutable completedRequests = 0
     let mutable localActorNum = 0
     let mutable totalJumpNos = 0
     let mutable totalRequests = 0
@@ -168,29 +168,22 @@ let localActor (mailbox:Actor<_>) =
     let mutable set = Set.empty
     
     // finger table creation for "0" node
-    let initFTableZero thisNode otherNode = 
-                let mutable next = 0
-                let mutable finger = []
-                for _ in 1..funcTableSize do 
-                    next <- next + 1
-                    if (thisNode + int64 (2. ** (float (next - 1)))) <= otherNode then 
-                        finger <- finger@[(next, otherNode)]
-                    else
-                        finger <- finger@[(next, thisNode)]
-                finger
+    let initFTableZero thisNode otherNode =
+        let finger =
+            [1..fingerTableSize]
+            |> List.map (fun next ->
+                let range = thisNode + int64 (2. ** float (next - 1))
+                if range <= otherNode then (next, otherNode) else (next, thisNode))
+        finger
     
     // finger table for (100) node
-    let initFingerTable num = 
-        let mutable next = 0
-        let mutable finger: (int * 'b) list = []
-        for _ in 1..funcTableSize do 
-            next <- next + 1
-            finger <- finger@[(next, num)]
-        finger
+    let initFingerTable idVal =
+        List.init fingerTableSize (fun itr -> (itr + 1, idVal))
 
-    let rec loop () = actor {
-        let! message = mailbox.Receive()
-        match message with 
+
+    let rec recursiveLoop () = actor {
+        let! receivedMessage = mailboxService.Receive()
+        match receivedMessage with 
         | Input(n,r) ->
             totalRequests <- n * r
             // Random actor generation
@@ -226,18 +219,18 @@ let localActor (mailbox:Actor<_>) =
             zero <! NetworkDoneNotification(numRequests)
             hundred <! NetworkDoneNotification(numRequests)
 
-        | Report(numOfJumps) ->
-            completedRequest <- completedRequest + 1
+        | GenerateReport(numOfJumps) ->
+            completedRequests <- completedRequests + 1
             totalJumpNos <- totalJumpNos + numOfJumps
-            if completedRequest = totalRequests then
-                printfn($"Total Requests {completedRequest}\tAverage Hops: {totalJumpNos / completedRequest} \tTotal jumps: {totalJumpNos} \t")
-                mailbox.Context.System.Terminate() |> ignore
+            if completedRequests = totalRequests then
+                printfn($"Total Requests {completedRequests}\nAverage Hops: {float totalJumpNos / float completedRequests} \nTotal jumps: {totalJumpNos} \t")
+                mailboxService.Context.System.Terminate() |> ignore
         | _ -> ()
-        return! loop()
+        return! recursiveLoop()
     }
-    loop()
+    recursiveLoop()
 
-let boss = spawn system "boss" localActor
-boss <! Input(numNodes, numRequests)
+let bossActorReference = spawn akkaSystem "boss" localActor
+bossActorReference <! Input(numNodes, numRequests)
 
-system.WhenTerminated.Wait()
+akkaSystem.WhenTerminated.Wait()
