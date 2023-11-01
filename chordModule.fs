@@ -92,7 +92,7 @@ module ChordModule
                 current_node.successor <- newNode
                 newNode.predecessor <- current_node
                 current_node <- newNode
-                printfn "%d" newNode.ID
+                // printfn "%d" newNode.ID
         root
     
 
